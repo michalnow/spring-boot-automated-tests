@@ -10,22 +10,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/animal")
 public class AnimalController {
-    private AnimalRepository animalRepository;
+    private AnimalService animalService;
 
     @Autowired
-    public AnimalController(AnimalRepository animalRepository) {
-        this.animalRepository = animalRepository;
+    public AnimalController(AnimalService animalService) {
+        this.animalService = animalService;
     }
 
     @GetMapping("/all")
-    public List<Animal> getAllAnimals(){
-        List<Animal> animals = new ArrayList<>();
-        animalRepository.findAll().iterator().forEachRemaining(animals::add);
-        return animals;
+    public Iterable<Animal> getAllAnimals(){
+        return animalService.getAllAnimals();
     }
 
     @PostMapping
-    public Animal saveAnimal(@Valid @RequestBody Animal animal){
-        return animalRepository.save(animal);
+    public void saveAnimal(@Valid @RequestBody Animal animal){
+        animalService.saveAnimal(animal);
     }
 }
